@@ -1,44 +1,57 @@
-import React from 'react'
+import React, { useState } from "react";
 
-export default function CardInfo({data}) {
-  console.log(data);
+export default function CardInfo({ data, pokemonTypes }) {
+  const [filterType, setFilterType] = useState("");
+
+  const handleFilterChange = (event) => {
+    setFilterType(event.target.value);
+  };
+
+  const filteredAbilities = data?.abilities?.filter(
+    (poke) => poke.ability.type?.name === filterType
+  );
+
   return (
-    <div className='cardInfoContainer'>
+    <div className="cardInfoContainer">
+      <div className="filters">
+        <label htmlFor="filterType">Filtrer par type :</label>
+        <select id="filterType" onChange={handleFilterChange}>
+          <option value="">All</option>
+          {pokemonTypes.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+      </div>
+
       {!data ? (
-        ""
+        <div>Loading ...</div>
       ) : (
         <>
           <h1>{data.name}</h1>
           <img
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${data.id}.svg`}
-            alt=''
+            alt=""
           />
-          <ul className='abilities'>
-            {
-              data.abilities.map(poke=> {
-                return(
-                  <>
-                  <li>{poke.ability.name}</li>
-                  </>
-                )
-              })
-            }
-            
+          <ul className="abilities">
+            {filteredAbilities.map((poke) => (
+              <li key={poke.ability.name}>{poke.ability.name}</li>
+            ))}
           </ul>
-          <div className='stats'>
-            {
-              data.stats.map(poke=>{
-                return(
-                  <>
-                  <span>{poke.stat.name}: {poke.base_stat}</span>
-                  </>
-                )
-              })
-            }
+          <div className="stats">
+            {data.stats.map((poke) => {
+              return (
+                <>
+                  <span>
+                    {poke.stat.name}: {poke.base_stat}
+                  </span>
+                </>
+              );
+            })}
           </div>
         </>
       )}
     </div>
   );
 }
-

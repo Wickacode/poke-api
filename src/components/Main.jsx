@@ -12,6 +12,7 @@ export default function Main() {
   const [nextUrl, setNextUrl] = useState();
   const [availablePages, setAvailablePages] = useState([]);
   const [selectedPage, setSelectedPage] = useState("");
+  const [pokemonTypes, setPokemonTypes] = useState([]);
 
   //Récupération des données depuis l'API
   const pokeFunction = async () => {
@@ -29,7 +30,7 @@ export default function Main() {
     setLoading(false);
   };
 
-  //Récupération des inforamtions détaillées d'un Pokémon
+  //Récupération des informations détaillées d'un Pokémon
   const getPokemon = async (results) => {
     const pokemonData = await Promise.all(
       results.map(async (item) => {
@@ -53,8 +54,16 @@ export default function Main() {
     );
   };
 
+  const fetchPokemonTypes = async () => {
+    const res = await fetch("https://pokeapi.co/api/v2/type");
+    const data = await res.json();
+    const types = data.results.map((type) => type.name);
+    setPokemonTypes(types);
+  }
+
   useEffect(() => {
     pokeFunction();
+    fetchPokemonTypes();
   }, [url]);
 
   return (
@@ -103,7 +112,7 @@ export default function Main() {
         </div>
       </div>
       <div className="rightSpace">
-        <CardInfo data={pokeDex} />
+        <CardInfo data={pokeDex} pokemonTypes={pokemonTypes}/>
       </div>
     </div>
   );
