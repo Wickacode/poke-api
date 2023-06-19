@@ -77,7 +77,11 @@ export default function Main() {
             </button>
           )}
 
-          <select value={selectedPage} onChange={handlePageChange} style={{ border: "none", padding: "10px" }}>
+          <select
+            value={selectedPage}
+            onChange={handlePageChange}
+            style={{ border: "none", padding: "10px" }}
+          >
             <option value="">Pages</option>
             {availablePages.map((page) => (
               <option key={page} value={page}>
