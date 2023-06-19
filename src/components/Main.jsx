@@ -10,6 +10,8 @@ export default function Main() {
   const [pokeDex, setPokeDex] = useState();
   const [prevUrl, setPrevUrl] = useState();
   const [nextUrl, setNextUrl] = useState();
+  const [availablePages, setAvailablePages] = useState([]);
+  const [selectedPage, setSelectedPage] = useState("");
 
   //Récupération des données depuis l'API
   const pokeFunction = async () => {
@@ -19,20 +21,36 @@ export default function Main() {
     getPokemon(data.results);
     setPrevUrl(data.previous);
     setNextUrl(data.next);
+
+    const totalPages = Math.ceil(data.count / data.results.length);
+    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+    setAvailablePages(pages);
+
     setLoading(false);
   };
 
   //Récupération des inforamtions détaillées d'un Pokémon
   const getPokemon = async (results) => {
-    results.map(async (item) => {
-      const response = await fetch(item.url);
-      const data = await response.json();
-      setPokeData((state) => {
-        state = [...state, data];
-        state.sort((a, b) => (a.id > b.id ? 1 : -1));
-        return state;
-      });
-    });
+    const pokemonData = await Promise.all(
+      results.map(async (item) => {
+        const response = await fetch(item.url);
+        const data = await response.json();
+        return data;
+      })
+    );
+
+    const sortedData = pokemonData.sort((a, b) => (a.id > b.id ? 1 : -1));
+    setPokeData(sortedData);
+  };
+
+  const handlePageChange = (e) => {
+    const selectedPage = e.target.value;
+    setSelectedPage(selectedPage);
+    setUrl(
+      `https://pokeapi.co/api/v2/pokemon/?offset=${
+        (selectedPage - 1) * 20
+      }&limit=20`
+    );
   };
 
   useEffect(() => {
@@ -58,6 +76,15 @@ export default function Main() {
               Previous
             </button>
           )}
+
+          <select value={selectedPage} onChange={handlePageChange} style={{ border: "none", padding: "10px" }}>
+            <option value="">Pages</option>
+            {availablePages.map((page) => (
+              <option key={page} value={page}>
+                {page}
+              </option>
+            ))}
+          </select>
 
           {nextUrl && (
             <button
