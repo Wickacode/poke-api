@@ -27,7 +27,7 @@ body {
 .leftSpace,
 .rightSpace {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   justify-content: center;
   gap: 1em;
   align-items: center;
@@ -38,11 +38,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
   padding: 20px;
+  width: 250px;
   background-color: rgb(76, 133, 147);
   border-radius: 10px;
   cursor: pointer;
+  
 }
 
 .pokeList img {
