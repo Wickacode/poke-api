@@ -1,5 +1,6 @@
-import React from "react";
-import Card from "./Card";
+import React from "react"
+import Card from "./Card"
+import CardInfo from "./CardInfo"
 
 export default function Main() {
     return(
@@ -11,7 +12,7 @@ export default function Main() {
             <Card />
             </div>
             <div className="rightSpace">
-
+            <CardInfo />
             </div>
         </div>
     )

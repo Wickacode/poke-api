@@ -8,6 +8,11 @@ body {
   background-color: rgb(23, 21, 21);
 }
 
+.container, .pokeList, .cardInfoContainer {
+  -webkit-box-shadow: -5px 3px 15px -1px #646464;
+  box-shadow: -5px 3px 15px -1px #646464;
+}
+
 .container {
   display: flex;
   width: 60%;
@@ -17,8 +22,6 @@ body {
   border-radius: 15px;
   background-color: #f1b900;
   margin-top: 200px;
-  -webkit-box-shadow: -5px 3px 15px -1px #646464;
-  box-shadow: -5px 3px 15px -1px #646464;
 }
 
 .leftSpace,
@@ -39,10 +42,52 @@ body {
   padding: 20px;
   background-color: rgb(76, 133, 147);
   border-radius: 10px;
-  -webkit-box-shadow: -5px 3px 15px -1px #646464;
-  box-shadow: -5px 3px 15px -1px #646464;
+  cursor: pointer;
 }
 
 .pokeList img {
   width: 70px;
+}
+
+/* CardInfo */
+
+.cardInfoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  padding: 30px;
+  border-radius: 15px;
+  background-color: rgb(23, 21, 21);
+}
+.cardInfoContainer h1 {
+  text-transform: uppercase;
+  color: rgb(208, 211, 213);
+}
+.cardInfoContainer img {
+  width: 150px;
+}
+.abilities {
+  list-style-type: none;
+  width: max-content;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 1em;
+
+}
+
+.abilities li {
+  background-color: aliceblue;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  color: rgb(208, 211, 213);
 }
