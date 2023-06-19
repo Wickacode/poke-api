@@ -8,7 +8,9 @@ body {
   background-color: rgb(23, 21, 21);
 }
 
-.container, .pokeList, .cardInfoContainer {
+.container,
+.pokeList,
+.cardInfoContainer {
   -webkit-box-shadow: -5px 3px 15px -1px #646464;
   box-shadow: -5px 3px 15px -1px #646464;
 }
@@ -27,13 +29,27 @@ body {
 .leftSpace,
 .rightSpace {
   display: flex;
-  /* flex-wrap: wrap; */
   justify-content: center;
   gap: 1em;
   align-items: center;
   width: 50%;
 }
 
+.leftSpace {
+  flex-direction: column;
+}
+
+.navigationBtn {
+  margin-top: 20px;
+  display: flex;
+  gap: 1em;
+}
+.navigationBtn button {
+  padding: 10px;
+  border: none;
+  width: 100px;
+  cursor: pointer;
+}
 .pokeList {
   display: flex;
   align-items: center;
@@ -43,7 +59,6 @@ body {
   background-color: rgb(76, 133, 147);
   border-radius: 10px;
   cursor: pointer;
-  
 }
 
 .pokeList img {
@@ -76,7 +91,6 @@ body {
   justify-content: space-evenly;
   align-items: center;
   gap: 1em;
-
 }
 
 .abilities li {

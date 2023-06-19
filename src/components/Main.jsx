@@ -3,12 +3,13 @@ import Card from "./Card";
 import CardInfo from "./CardInfo";
 
 export default function Main() {
-
-  // Différents états du composant 
+  // Différents états du composant
   const [pokeData, setPokeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
   const [pokeDex, setPokeDex] = useState();
+  const [prevUrl, setPrevUrl] = useState();
+  const [nextUrl, setNextUrl] = useState();
 
   //Récupération des données depuis l'API
   const pokeFunction = async () => {
@@ -16,6 +17,8 @@ export default function Main() {
     const res = await fetch(url);
     const data = await res.json();
     getPokemon(data.results);
+    setPrevUrl(data.previous);
+    setNextUrl(data.next);
     setLoading(false);
   };
 
@@ -28,7 +31,6 @@ export default function Main() {
         state = [...state, data];
         state.sort((a, b) => (a.id > b.id ? 1 : -1));
         return state;
-        
       });
     });
   };
@@ -40,7 +42,34 @@ export default function Main() {
   return (
     <div className="container">
       <div className="leftSpace">
-        <Card pokemon={pokeData} loading={loading} infopokemon={(poke) => setPokeDex(poke)} />
+        <Card
+          pokemon={pokeData}
+          loading={loading}
+          infopokemon={(poke) => setPokeDex(poke)}
+        />
+        <div className="navigationBtn">
+          {prevUrl && (
+            <button
+              onClick={() => {
+                setPokeData([]);
+                setUrl(prevUrl);
+              }}
+            >
+              Previous
+            </button>
+          )}
+
+          {nextUrl && (
+            <button
+              onClick={() => {
+                setPokeData([]);
+                setUrl(nextUrl);
+              }}
+            >
+              Next
+            </button>
+          )}
+        </div>
       </div>
       <div className="rightSpace">
         <CardInfo data={pokeDex} />
