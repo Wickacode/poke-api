@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Card from "./Card";
-import CardInfo from "./CardInfo";
+import Card from "../components/Card";
+import CardInfo from "../components/CardInfo";
 
 export default function Main() {
-  // Différents états du composant
   const [pokeData, setPokeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
@@ -13,8 +12,8 @@ export default function Main() {
   const [availablePages, setAvailablePages] = useState([]);
   const [selectedPage, setSelectedPage] = useState("");
   const [pokemonTypes, setPokemonTypes] = useState([]);
+  const [filter, setFilter] = useState("");
 
-  //Récupération des données depuis l'API
   const pokeFunction = async () => {
     setLoading(true);
     const res = await fetch(url);
@@ -30,7 +29,6 @@ export default function Main() {
     setLoading(false);
   };
 
-  //Récupération des informations détaillées d'un Pokémon
   const getPokemon = async (results) => {
     const pokemonData = await Promise.all(
       results.map(async (item) => {
@@ -59,18 +57,33 @@ export default function Main() {
     const data = await res.json();
     const types = data.results.map((type) => type.name);
     setPokemonTypes(types);
-  }
+  };
 
   useEffect(() => {
     pokeFunction();
     fetchPokemonTypes();
   }, [url]);
 
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
   return (
     <div className="container">
       <div className="leftSpace">
+      <input
+        type="text"
+        value={filter}
+        onChange={handleFilterChange}
+        placeholder="Filtrer par nom..."
+        className="nameFilter"
+      />
+
+      
         <Card
-          pokemon={pokeData}
+          pokemon={pokeData.filter((poke) =>
+            poke.name.toLowerCase().includes(filter.toLowerCase())
+          )}
           loading={loading}
           infopokemon={(poke) => setPokeDex(poke)}
         />
@@ -112,7 +125,7 @@ export default function Main() {
         </div>
       </div>
       <div className="rightSpace">
-        <CardInfo data={pokeDex} pokemonTypes={pokemonTypes}/>
+        <CardInfo data={pokeDex} pokemonTypes={pokemonTypes} />
       </div>
     </div>
   );

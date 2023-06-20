@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
-export default function CardInfo({ data, pokemonTypes }) {
+export default function CardInfo({ data, pokemonTypes, onFilterChange }) {
   const [filterType, setFilterType] = useState("");
 
   const handleFilterChange = (event) => {
-    setFilterType(event.target.value);
+    const selectedType = event.target.value;
+    onFilterChange(selectedType);
   };
 
   const filteredAbilities = data?.abilities?.filter(

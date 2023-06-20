@@ -35,6 +35,11 @@ body {
   width: 50%;
 }
 
+/* nameFilter */
+.nameFilter {
+  border: none;
+  padding: 15px;
+}
 .leftSpace {
   flex-direction: column;
 }
