@@ -8,6 +8,13 @@ body {
   background-color: rgb(23, 21, 21);
 }
 
+.navLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+}
+
 .container,
 .pokeList,
 .cardInfoContainer {
@@ -15,15 +22,16 @@ body {
   box-shadow: -5px 3px 15px -1px #646464;
 }
 
+
 .container {
   display: flex;
-  width: 60%;
+  width: 90%;
   height: auto;
   margin: auto;
   padding: 30px;
   border-radius: 15px;
   background-color: #f1b900;
-  margin-top: 200px;
+  margin-top: 40px;
 }
 
 .leftSpace,
@@ -42,6 +50,7 @@ body {
 }
 .leftSpace {
   flex-direction: column;
+  width: 100%;
 }
 
 .navigationBtn {
@@ -59,30 +68,29 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 0 25px;
   width: 250px;
-  background-color: rgb(76, 133, 147);
+  background-color: rgb(23, 21, 21);
+  color: #b1b8be;
   border-radius: 10px;
   cursor: pointer;
 }
 
 .pokeList img {
-  width: 70px;
+  width: 90px;
 }
 
 /* CardInfo */
-
 .cardInfoContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2em;
   width: 400px;
   height: 600px;
   padding: 30px;
   border-radius: 15px;
-  background-color: rgb(23, 21, 21);
+  background-color: #2a73b9;
 }
 .cardInfoContainer h1 {
   text-transform: uppercase;
@@ -90,6 +98,23 @@ body {
 }
 .cardInfoContainer img {
   width: 150px;
+  margin: 35px 0;
+}
+
+.types {
+  margin-right: 10px;
+  font-size: 20px;
+  display: flex;
+}
+
+.types > span {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.types > ul {
+  display: flex;
+  list-style-type: none;
 }
 .abilities {
   list-style-type: none;
@@ -112,4 +137,6 @@ body {
   align-items: center;
   padding: 20px;
   color: rgb(208, 211, 213);
+  letter-spacing: 2px;
+  font-weight: bold;
 }

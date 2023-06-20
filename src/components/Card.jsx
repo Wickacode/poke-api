@@ -15,7 +15,7 @@ export default function Card({ pokemon, loading, infopokemon, filterType }) {
   }, [pokemon, filterType]);
 
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1em" }}>
+    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1em", margin: "20px 0" }}>
       {loading ? (
         <h1>Loading...</h1>
       ) : (

@@ -11,7 +11,6 @@ export default function Main() {
   const [nextUrl, setNextUrl] = useState();
   const [availablePages, setAvailablePages] = useState([]);
   const [selectedPage, setSelectedPage] = useState("");
-  const [pokemonTypes, setPokemonTypes] = useState([]);
   const [filter, setFilter] = useState("");
 
   const pokeFunction = async () => {
@@ -52,16 +51,8 @@ export default function Main() {
     );
   };
 
-  const fetchPokemonTypes = async () => {
-    const res = await fetch("https://pokeapi.co/api/v2/type");
-    const data = await res.json();
-    const types = data.results.map((type) => type.name);
-    setPokemonTypes(types);
-  };
-
   useEffect(() => {
     pokeFunction();
-    fetchPokemonTypes();
   }, [url]);
 
   const handleFilterChange = (event) => {
@@ -71,15 +62,14 @@ export default function Main() {
   return (
     <div className="container">
       <div className="leftSpace">
-      <input
-        type="text"
-        value={filter}
-        onChange={handleFilterChange}
-        placeholder="Filtrer par nom..."
-        className="nameFilter"
-      />
+        <input
+          type="text"
+          value={filter}
+          onChange={handleFilterChange}
+          placeholder="Filtrer par nom..."
+          className="nameFilter"
+        />
 
-      
         <Card
           pokemon={pokeData.filter((poke) =>
             poke.name.toLowerCase().includes(filter.toLowerCase())
@@ -125,7 +115,7 @@ export default function Main() {
         </div>
       </div>
       <div className="rightSpace">
-        <CardInfo data={pokeDex} pokemonTypes={pokemonTypes} />
+        <CardInfo data={pokeDex} />
       </div>
     </div>
   );
