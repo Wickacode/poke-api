@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import CardInfo from "../components/CardInfo";
+import ErrorPage from "./ErrorPage";
 
 export default function Main() {
   const [pokeData, setPokeData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [url, setUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
+  const [url, setUrl] = useState("https://pokEapi.co/api/v2/pokemon/");
   const [pokeDex, setPokeDex] = useState();
   const [prevUrl, setPrevUrl] = useState();
   const [nextUrl, setNextUrl] = useState();
@@ -13,18 +14,26 @@ export default function Main() {
   const [selectedPage, setSelectedPage] = useState("");
   const [filter, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [error, setError] = useState(false);
 
   const pokeFunction = async () => {
     setLoading(true);
-    const res = await fetch(url);
-    const data = await res.json();
-    getPokemon(data.results);
-    setPrevUrl(data.previous);
-    setNextUrl(data.next);
+    try {
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error("Failed to fetch data from the API");
+      }
+      const data = await res.json();
+      getPokemon(data.results);
+      setPrevUrl(data.previous);
+      setNextUrl(data.next);
 
-    const totalPages = Math.ceil(data.count / data.results.length);
-    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
-    setAvailablePages(pages);
+      const totalPages = Math.ceil(data.count / data.results.length);
+      const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+      setAvailablePages(pages);
+    } catch (error) {
+      setError(true);
+    }
 
     setLoading(false);
   };
@@ -72,13 +81,17 @@ export default function Main() {
           className="nameFilter"
         />
 
-        <Card
-          pokemon={pokeData.filter((poke) =>
-            poke.name.toLowerCase().includes(filter.toLowerCase())
-          )}
-          loading={loading}
-          infopokemon={(poke) => setPokeDex(poke)}
-        />
+        {error ? (
+          <ErrorPage />
+        ) : (
+          <Card
+            pokemon={pokeData.filter((poke) =>
+              poke.name.toLowerCase().includes(filter.toLowerCase())
+            )}
+            loading={loading}
+            infopokemon={(poke) => setPokeDex(poke)}
+          />
+        )}
         <div className="navigationBtn">
           {prevUrl && (
             <button
