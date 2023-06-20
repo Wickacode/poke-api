@@ -12,6 +12,7 @@ export default function Main() {
   const [availablePages, setAvailablePages] = useState([]);
   const [selectedPage, setSelectedPage] = useState("");
   const [filter, setFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const pokeFunction = async () => {
     setLoading(true);
@@ -44,6 +45,7 @@ export default function Main() {
   const handlePageChange = (e) => {
     const selectedPage = e.target.value;
     setSelectedPage(selectedPage);
+    setCurrentPage(parseInt(selectedPage));
     setUrl(
       `https://pokeapi.co/api/v2/pokemon/?offset=${
         (selectedPage - 1) * 20
@@ -83,6 +85,7 @@ export default function Main() {
               onClick={() => {
                 setPokeData([]);
                 setUrl(prevUrl);
+                setCurrentPage(currentPage - 1);
               }}
             >
               Previous
@@ -90,7 +93,7 @@ export default function Main() {
           )}
 
           <select
-            value={selectedPage}
+            value={currentPage.toString()}
             onChange={handlePageChange}
             style={{ border: "none", padding: "10px" }}
           >
@@ -107,6 +110,7 @@ export default function Main() {
               onClick={() => {
                 setPokeData([]);
                 setUrl(nextUrl);
+                setCurrentPage(currentPage + 1);
               }}
             >
               Next

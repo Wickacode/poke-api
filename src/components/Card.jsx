@@ -14,8 +14,20 @@ export default function Card({ pokemon, loading, infopokemon, filterType }) {
     }
   }, [pokemon, filterType]);
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1em", margin: "20px 0" }}>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        gap: "1em",
+        margin: "20px 0",
+      }}
+    >
       {loading ? (
         <h1>Loading...</h1>
       ) : (
@@ -24,7 +36,7 @@ export default function Card({ pokemon, loading, infopokemon, filterType }) {
             <div className="pokeList">
               <h4>{item.id}</h4>
               <img src={item.sprites.front_default} alt={item.name} />
-              <span>{item.name}</span>
+              <span>{capitalizeFirstLetter(item.name)}</span>
             </div>
           </div>
         ))
