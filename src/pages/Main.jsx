@@ -69,7 +69,13 @@ export default function Main() {
   }, [url]);
 
   const handleFilterChange = (event) => {
-    setFilter(event.target.value);
+    let value = event.target.value;
+
+    if(value.length > 1) {
+      setFilter(value);}
+    else if(value.length == 0) {
+      setFilter(event.target.value);
+    }
   };
 
   return (
@@ -78,7 +84,7 @@ export default function Main() {
         <div className="leftSpace">
           <input
             type="text"
-            value={filter}
+            
             onChange={handleFilterChange}
             placeholder="Filtrer par nom..."
             className="nameFilter"
