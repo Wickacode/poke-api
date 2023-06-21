@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import Card from "../components/Card";
 import CardInfo from "../components/CardInfo";
 import ErrorPage from "./ErrorPage";
 
+export const FilterContext = createContext();
+
 export default function Main() {
   const [pokeData, setPokeData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [url, setUrl] = useState("https://pokEapi.co/api/v2/pokemon/");
+  const [url, setUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
   const [pokeDex, setPokeDex] = useState();
   const [prevUrl, setPrevUrl] = useState();
   const [nextUrl, setNextUrl] = useState();
@@ -71,69 +73,68 @@ export default function Main() {
   };
 
   return (
-    <div className="container">
-      <div className="leftSpace">
-        <input
-          type="text"
-          value={filter}
-          onChange={handleFilterChange}
-          placeholder="Filtrer par nom..."
-          className="nameFilter"
-        />
-
-        {error ? (
-          <ErrorPage />
-        ) : (
-          <Card
-            pokemon={pokeData.filter((poke) =>
-              poke.name.toLowerCase().includes(filter.toLowerCase())
-            )}
-            loading={loading}
-            infopokemon={(poke) => setPokeDex(poke)}
+    <FilterContext.Provider value={{ filterType: filter, setFilterType: setFilter }}>
+      <div className="container">
+        <div className="leftSpace">
+          <input
+            type="text"
+            value={filter}
+            onChange={handleFilterChange}
+            placeholder="Filtrer par nom..."
+            className="nameFilter"
           />
-        )}
-        <div className="navigationBtn">
-          {prevUrl && (
-            <button
-              onClick={() => {
-                setPokeData([]);
-                setUrl(prevUrl);
-                setCurrentPage(currentPage - 1);
-              }}
-            >
-              Previous
-            </button>
-          )}
 
-          <select
-            value={currentPage.toString()}
-            onChange={handlePageChange}
-            style={{ border: "none", padding: "10px" }}
-          >
-            <option value="">Pages</option>
-            {availablePages.map((page) => (
-              <option key={page} value={page}>
-                {page}
-              </option>
-            ))}
-          </select>
-
-          {nextUrl && (
-            <button
-              onClick={() => {
-                setPokeData([]);
-                setUrl(nextUrl);
-                setCurrentPage(currentPage + 1);
-              }}
-            >
-              Next
-            </button>
+          {error ? (
+            <ErrorPage />
+          ) : (
+            <Card
+              pokemon={pokeData}
+              loading={loading}
+              infopokemon={(poke) => setPokeDex(poke)}
+            />
           )}
+          <div className="navigationBtn">
+            {prevUrl && (
+              <button
+                onClick={() => {
+                  setPokeData([]);
+                  setUrl(prevUrl);
+                  setCurrentPage(currentPage - 1);
+                }}
+              >
+                Previous
+              </button>
+            )}
+
+            <select
+              value={currentPage.toString()}
+              onChange={handlePageChange}
+              className="pageSelection"
+            >
+              {availablePages.map((page) => (
+                <option key={page} value={page.toString()}>
+                  {page}
+                </option>
+              ))}
+            </select>
+
+            {nextUrl && (
+              <button
+                onClick={() => {
+                  setPokeData([]);
+                  setUrl(nextUrl);
+                  setCurrentPage(currentPage + 1);
+                }}
+              >
+                Next
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="rightSpace">
+          {pokeDex ? <CardInfo data={pokeDex} /> : <h3>No Pokemon selected</h3>}
         </div>
       </div>
-      <div className="rightSpace">
-        <CardInfo data={pokeDex} />
-      </div>
-    </div>
+    </FilterContext.Provider>
   );
 }

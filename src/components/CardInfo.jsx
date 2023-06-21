@@ -1,11 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-export default function CardInfo({ data, pokemonTypes, onFilterChange }) {
-  const [filterType, setFilterType] = useState("");
-
-  const filteredAbilities = data?.abilities?.filter(
-    (poke) => poke.ability.type?.name === filterType
-  );
+export default function CardInfo({ data}) {
 
   return (
     <div className="cardInfoContainer">
@@ -39,7 +34,7 @@ export default function CardInfo({ data, pokemonTypes, onFilterChange }) {
           />
 
           <ul className="abilities">
-            {filteredAbilities.map((poke) => (
+          {data.abilities.map((poke) => (
               <li key={poke.ability.name}>{poke.ability.name}</li>
             ))}
           </ul>

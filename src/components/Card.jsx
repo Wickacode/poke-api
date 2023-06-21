@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { FilterContext } from "../pages/Main";
 
-export default function Card({ pokemon, loading, infopokemon, filterType }) {
+export default function Card({ pokemon, loading, infopokemon }) {
+  const { filterType } = useContext(FilterContext);
   const [filteredPokemon, setFilteredPokemon] = useState([]);
 
   useEffect(() => {
     if (filterType) {
       const filtered = pokemon.filter((item) =>
-        item.types.some((type) => type.type.name === filterType)
+        item.name.toLowerCase().startsWith(filterType.toLowerCase())
       );
       setFilteredPokemon(filtered);
     } else {
