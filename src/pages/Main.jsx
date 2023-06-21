@@ -32,7 +32,7 @@ export default function Main() {
 
       const totalPages = Math.ceil(data.count / data.results.length);
       const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
-      setAvailablePages(pages);
+      setAvailablePages(pages.reduce((acc, page) => [...acc, page], []));
     } catch (error) {
       setError(true);
     }

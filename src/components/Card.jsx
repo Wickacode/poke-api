@@ -6,15 +6,15 @@ export default function Card({ pokemon, loading, infopokemon }) {
   const [filteredPokemon, setFilteredPokemon] = useState([]);
 
   useEffect(() => {
-    if (filterType) {
-      const filtered = pokemon.filter((item) =>
-        item.name.toLowerCase().startsWith(filterType.toLowerCase())
-      );
-      setFilteredPokemon(filtered);
-    } else {
-      setFilteredPokemon(pokemon);
-    }
-  }, [pokemon, filterType]);
+    setFilteredPokemon(
+      pokemon.reduce((acc, item) => {
+        if (item.name.toLowerCase().startsWith(filterType.toLowerCase())) {
+          return [...acc, item];
+        }
+        return acc;
+      }, [])
+    );
+  }, [pokemon, filterType]); 
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
